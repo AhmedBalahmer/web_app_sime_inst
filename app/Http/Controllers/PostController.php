@@ -39,7 +39,7 @@ class PostController extends Controller
         $data['image'] = $image;
         $data['slug'] = Str::random(10);
         $data['user_id'] = Auth::user()->id;
-        $data['description']=$request->description;
+        $data['description'] = $request->description;
         Post::create($data);
         return redirect()->back();
     }
@@ -49,7 +49,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('posts.show',compact('post'));
+        return view('posts.show', compact('post'));
     }
 
     /**
@@ -57,7 +57,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -65,7 +65,17 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $data = $request->validate([
+            'description' => 'required',
+            'image' => ['nullable', 'mimes:png,jpg,jpeg,gif']
+        ]);
+        if($request->hasFile('image')){
+            $image=$request->file('image')->store('posts','public');
+            $data['image']=$image;
+
+        }
+        $post->update($data);
+        return redirect()->back()->with('success','post updata ');
     }
 
     /**

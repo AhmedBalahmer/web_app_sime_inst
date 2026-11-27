@@ -22,8 +22,10 @@ Route::middleware('auth')->group(function () {
         Route::get('post/create', 'create')->name('create_post');
         Route::post('post/create', 'store')->name('stor_post');
         Route::get('post/{post:slug}', 'show')->name('show_post');
+        Route::get('post/{post:slug}/edit','edit')->name('get_update_post');
+        Route::put('post/edit/{post:slug}','update')->name('post.update');
     });
-    Route::post('/post/{post:slug}/comment',[CommentController::class,'store'])->name('Comment_store');
+    Route::post('/post/{post:slug}/comment', [CommentController::class, 'store'])->name('Comment_store');
 });
 
 require __DIR__ . '/auth.php';
