@@ -15,7 +15,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::all();
+        $suggested_users = auth()->user()->suggested_users();
+        return view('posts.index', ['posts' => $posts, 'suggestedusers' => $suggested_users]);
     }
 
     /**
@@ -70,13 +72,12 @@ class PostController extends Controller
             'description' => 'required',
             'image' => ['nullable', 'mimes:png,jpg,jpeg,gif']
         ]);
-        if($request->hasFile('image')){
-            $image=$request->file('image')->store('posts','public');
-            $data['image']=$image;
-
+        if ($request->hasFile('image')) {
+            $image = $request->file('image')->store('posts', 'public');
+            $data['image'] = $image;
         }
         $post->update($data);
-        return redirect()->back()->with('success','post updata ');
+        return redirect()->back()->with('success', 'post updata ');
     }
 
     /**
@@ -84,9 +85,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if($post->image){
+        if ($post->image) {
             Storage::disk('public')->delete($post->image);
-
         }
         $post->delete();
         return redirect()->route('welcome');
