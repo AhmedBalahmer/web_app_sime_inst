@@ -19,7 +19,8 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(PostController::class)->group(function () {
         Route::get('post/create', 'create')->name('create_post');
-        Route::post('post/create','store')->name('stor_post');
+        Route::post('post/create', 'store')->name('stor_post');
+        Route::get('post/{post:slug}', 'show')->name('show_post');
     });
 });
 
