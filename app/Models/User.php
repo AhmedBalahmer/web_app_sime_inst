@@ -63,7 +63,7 @@ class User extends Authenticatable
     }
     public function following()
     {
-        return $this->belongsToMany(User::class,'follows', 'user_id', 'following_user_id')->withPivot('confirmed');
+        return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_user_id')->withPivot('confirmed');
     }
     public function follower()
     {

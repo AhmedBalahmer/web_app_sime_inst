@@ -12,7 +12,7 @@
             <div class="border-b-2">
                 <div class="flex items-center p-5 gap-0">
                     <img src="{{ $post->owner->image }}" alt="{{ $post->owner->username }}"
-                        class="mr-5 w-10 h-10 rounder-full">
+                        class="mr-5 w-10 h-10 rounded-full">
                     <div class="grow">
                         <a href="" class="font-bold">
                             {{ $post->owner->username }}
@@ -41,6 +41,40 @@
                 </div>
 
                 {{-- comment --}}
+
+                @foreach ($post->comments as $comment)
+                    <div class="flex items-start px-5 py-2 gap-2">
+                        <img src="{{ $comment->owner->image }}" class="h-10 w-10 rounded-full ltr:mr-5 rtl:ml-5">
+                        <div class="flex flex-col">
+                            <div>
+                                <a href=""
+                                    class="font-bold mr-2 inline-block">{{ $comment->owner->username }}</a>
+                                <span class="inline">{{ $comment->body }}</span>
+                            </div>
+                            <div class="mt-1 text-sm text-gray-400">
+                                {{ $comment->created_at->diffforHumans(null, true, true) }}
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="border-t p-5">
+                <form action="/post/{{ $post->slug }}/comment" method="POST">
+                    @csrf
+                    @if ($errors->has('body'))
+                        <div class="text-red-500 text-sm mb-2">
+                            {{ $errors->first('body') }}
+                        </div>
+                    @endif
+                    <div class="flex flex-row ">
+                        <textarea name="body" id="comment_body" placeholder="{{ __('Add a comment..') }}"
+                            class="h-8 grow resize-none overflow-hidden border-none bg-white text-blue-500" required></textarea>
+                        <button type="submit" class="ltr:ml-5 rtl:mr-5 border-none bg-white text-blue-500 ">
+                            {{ __('Comment') }}
+                        </button>
+                    </div>
+                </form>
             </div>
 
         </div>
