@@ -22,6 +22,15 @@
                         <a href="{{ route('get_update_post', $post->slug) }}">
                             <i class='bx bx-message-square-edit'></i>
                         </a>
+                        <form id="delete-post-form-{{ $post->id }}"
+                            action="{{ route('post.destroy', $post->slug) }}" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" class="text-red-600" onclick="confirmDelete({{ $post->id }})">
+                                <li class="bx bx-message-square-x inline ml-2"></li>
+                            </button>
+
+                        </form>
                     @endif
 
                 </div>
@@ -88,3 +97,21 @@
 
     </div>
 </x-app-layout>
+<script>
+    function confirmDelete(postId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'this action cannot be undone!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3086d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-post-form-' + postId).submit();
+            }
+        });
+    }
+</script>
