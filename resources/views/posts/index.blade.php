@@ -14,6 +14,8 @@
             @endforelse
         </div>
 
+
+        
         {{-- Right side --}}
         <div class=" hidden w-[60rem] lg:flex lg:flex-col pt-4 ">
 
